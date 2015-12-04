@@ -3,30 +3,32 @@
 
 // but you don't so you're going to write it from scratch:
 
-var stringifyJSON = function(obj) {
-  // your code goes here
-  var finalString = "";
-  function makeString(item) {
-  	if (item == null) finalString = finalString + "null"
+
+function stringifyJSON(item) {
+	if (item == null) return "null";
   	else if (typeof item != "object") {
-  		if(typeof item == "string") {
-  			item = "\"" + item + "\"";
-  		}
-  		finalString = finalString + item;
+  		if(typeof item == "string") return "\"" + item + "\"";
+  		else return "" + item;
   	}
-  	else if (Array.isArray(obj)) {
-  		finalString = finalString + "[";
-  		_.each(obj, function(item, index) {
-  			makeString(item);
-  			if(index != obj.length - 1) finalString = finalString + ","
+  	else if (Array.isArray(item)) {
+  		var finalString = "[";
+  		_.each(item, function(val, index) {
+  			finalString = finalString + stringifyJSON(val);
+  			if(index != item.length - 1) finalString = finalString + ","
   		});
-  		finalString = finalString + "]";
+  		return finalString + "]";
   	}
+  	else if (typeof item == "object") {
+  		var finalString = "{";
+  		var NonEmptyObject = false;
+  		_.each(item, function(value, key, collection) {
 
-
-
+  			NonEmptyObject = true;
+  			finalString = finalString + stringifyJSON(key) + ":" + stringifyJSON(value) + ",";
+  		});
+  		if(NonEmptyObject) finalString = finalString.slice(0,finalString.length - 1);
+  		finalString = finalString + "}";
+  		return finalString
+  	}
   };
 
-  makeString(obj);
-  return finalString;
-};
