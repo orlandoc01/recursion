@@ -5,4 +5,18 @@
 
 var stringifyJSON = function(obj) {
   // your code goes here
+  var finalString = "";
+  function makeString(item) {
+  	if (item == null) finalString = finalString + "null"
+  	if (typeof item != "object") {
+  		if(typeof item == "string") item = "\"" + item + "\"";
+  		finalString = finalString + item;
+  	}
+
+
+
+  };
+
+  makeString(obj);
+  return finalString;
 };
