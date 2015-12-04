@@ -8,9 +8,19 @@ var stringifyJSON = function(obj) {
   var finalString = "";
   function makeString(item) {
   	if (item == null) finalString = finalString + "null"
-  	if (typeof item != "object") {
-  		if(typeof item == "string") item = "\"" + item + "\"";
+  	else if (typeof item != "object") {
+  		if(typeof item == "string") {
+  			item = "\"" + item + "\"";
+  		}
   		finalString = finalString + item;
+  	}
+  	else if (Array.isArray(obj)) {
+  		finalString = finalString + "[";
+  		_.each(obj, function(item, index) {
+  			makeString(item);
+  			if(index != obj.length - 1) finalString = finalString + ","
+  		});
+  		finalString = finalString + "]";
   	}
 
 
