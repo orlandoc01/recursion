@@ -22,9 +22,10 @@ function stringifyJSON(item) {
   		var finalString = "{";
   		var NonEmptyObject = false;
   		_.each(item, function(value, key, collection) {
-
-  			NonEmptyObject = true;
-  			finalString = finalString + stringifyJSON(key) + ":" + stringifyJSON(value) + ",";
+  			if(typeof value != "function" && !(value === undefined)) {
+  				NonEmptyObject = true;
+  				finalString = finalString + stringifyJSON(key) + ":" + stringifyJSON(value) + ",";
+  			}
   		});
   		if(NonEmptyObject) finalString = finalString.slice(0,finalString.length - 1);
   		finalString = finalString + "}";
